@@ -1,0 +1,50 @@
+<!DOCTYPE html> 
+
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="/css/style.css"/>
+        <title>Messenger App</title>
+    </head>    
+<body>
+    <script src = "/socket.io/socket.io.js"></script>
+    <script> 
+        var body = document.getElementsByTagName('body');
+        var socket = io();
+
+        body.onload = function(){
+            socket.emit('onload')
+        }
+
+        var send = function() {
+            var text = document.getElementById('messageInput').value;
+            socket.emit('message', text)
+        }
+        
+        var receive = function(message) {
+            var li = document.createElement('li');
+            li.innerText = message;
+            document.getElementById('messages').appendChild(li);
+        }
+
+        var onload = function(message) {
+            var li = document.createElement('li');
+            li.innerText = message;
+            document.getElementById('messages').appendChild(li);
+        }
+        
+        socket.on('message', receive);
+        socket.on('onload', onload);
+    
+    </script>
+    <h1>Hello</h1>
+    <div>
+        <ul id="messages"></ul>
+        <div class="zone-saisie">
+            <input id="messageInput" /> <button onclick="send()"> Envoie</button>
+        </div>
+    </div>
+</body> 
+</html>
